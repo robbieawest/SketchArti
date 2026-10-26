@@ -1,0 +1,15 @@
+{
+  "name": "Cabinet (placeholder)",
+  "attribution": "Built from primitives for development; not a dataset model.",
+  "parts": [
+    { "id": "body", "name": "Body", "primitive": { "type": "box", "size": [1.0, 0.8, 0.6] }, "position": [0, 0.4, 0] },
+    { "id": "lid", "name": "Lid", "primitive": { "type": "box", "size": [1.0, 0.05, 0.6] }, "position": [0, 0.825, 0] },
+    { "id": "drawer", "name": "Drawer", "primitive": { "type": "box", "size": [0.8, 0.25, 0.5] }, "position": [0, 0.25, 0.08] },
+    { "id": "handle", "name": "Handle", "primitive": { "type": "cylinder", "radius": 0.02, "height": 0.3, "axis": "x" }, "position": [0, 0.25, 0.36] }
+  ],
+  "joints": [
+    { "id": "lid-hinge", "name": "Lid hinge", "type": "revolute", "parent": "body", "child": "lid", "origin": [0, 0.825, -0.3], "axis": [-1, 0, 0], "limit": [0, 1.9] },
+    { "id": "drawer-slide", "name": "Drawer slide", "type": "prismatic", "parent": "body", "child": "drawer", "origin": [0, 0.25, 0.33], "axis": [0, 0, 1], "limit": [0, 0.4] },
+    { "id": "handle-fixed", "name": "Handle mount", "type": "fixed", "parent": "drawer", "child": "handle", "origin": [0, 0.25, 0.36], "axis": [0, 0, 1] }
+  ]
+}

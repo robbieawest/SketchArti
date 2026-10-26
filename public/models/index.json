@@ -1,0 +1,16 @@
+{
+  "models": [
+    {
+      "id": "placeholder-cabinet",
+      "name": "Cabinet (placeholder)",
+      "path": "placeholder-cabinet/model.json",
+      "description": "Development placeholder: a hinged lid and a sliding drawer."
+    },
+    {
+      "id": "placeholder-lamp",
+      "name": "Desk lamp (placeholder)",
+      "path": "placeholder-lamp/model.json",
+      "description": "Development placeholder: a swivelling base and a three-joint arm."
+    }
+  ]
+}
