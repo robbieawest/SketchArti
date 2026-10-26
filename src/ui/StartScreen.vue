@@ -2,7 +2,10 @@
   <PopupFrame :title="STUDY_TITLE" :closable="false">
     <form @submit.prevent="submit">
       <p v-for="(paragraph, i) in INFORMATION_PARAGRAPHS" :key="i">
-        {{ paragraph }}
+        <template v-for="(piece, j) in paragraph.split('**')" :key="j">
+          <strong v-if="j % 2 === 1">{{ piece }}</strong>
+          <template v-else>{{ piece }}</template>
+        </template>
       </p>
 
       <h2>About you</h2>

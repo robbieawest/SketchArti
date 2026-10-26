@@ -1,6 +1,6 @@
-// Start-screen content. PLACEHOLDER WORDING: replace the information text
-// and consent statements with the ethics-approved versions before running
-// the study. Question ids are what end up in the submitted profile.
+// Start-screen content. The information text is still marked work in
+// progress, and the consent statements are placeholders: replace both with
+// the ethics-approved versions before running the study. Question ids are what end up in the submitted profile.
 
 export interface ProfileQuestion {
   id: string;
@@ -12,11 +12,12 @@ export interface ProfileQuestion {
 
 export const STUDY_TITLE = "Sketching articulated objects";
 
+/** `**text**` is shown in bold. */
 export const INFORMATION_PARAGRAPHS = [
-  "[Placeholder — replace with the approved participant information sheet.]",
-  "In this study you will look at 3D models of objects with moving parts and sketch your own version of them in 3D. You will then split your sketch into parts and show how those parts move relative to each other.",
-  "You can sketch as many of the models as you like and take as long as you need. Your work is saved in this browser, so you can close the page and come back later.",
-  "We record your sketches and how you use the tool (which tools you use and when, and the edits you make). We do not record video, audio or your screen.",
+  "[work in progress]",
+  "The goal of this study is to better understand the design process behind 3D sketching. The 3D sketch objects this study is interested in are descriptions of **articulated objects**, where sketches are naturally segmented into parts, and joints describe the movement between each part. We are interested in how you will sketch a reference articulated object, designing and describing joints between the sketch parts you create.",
+  "You may sketch as many models as you like, and take as long as you need. The work is saved in the browser, so you can close the page and come back later. You are not expected to be good at drawing or art in general, nor are you expected to spend a very long time on each model to refine details.",
+  "We record your sketches and how you use the tool, keeping a log of your progress. We do not record video, audio, or your screen.",
 ];
 
 export const CONSENT_STATEMENTS = [
