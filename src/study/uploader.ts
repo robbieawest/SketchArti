@@ -3,6 +3,7 @@
 // queued and is retried later (also on the next visit). Protocol in sync.ts.
 
 import {
+  inTestMode,
   loadOutbox,
   loadParticipant,
   loadUploadToken,
@@ -11,8 +12,16 @@ import {
 } from "./storage";
 import { APP_ID, PAYLOAD_VERSION, type RegisterBody } from "./sync";
 
-export const submitUrl: string | undefined =
-  import.meta.env.VITE_SUBMIT_URL || undefined;
+/** A bare host ("x.workers.dev") would be fetched relative to the page, so
+ *  give it a scheme. */
+export const submitUrl: string | undefined = withScheme(
+  import.meta.env.VITE_SUBMIT_URL?.trim(),
+);
+
+function withScheme(url: string | undefined): string | undefined {
+  if (!url) return undefined;
+  return /^https?:\/\//i.test(url) ? url : `https://${url}`;
+}
 
 const BASE_DELAY_MS = 10_000;
 const MAX_DELAY_MS = 5 * 60_000;
@@ -22,9 +31,10 @@ let running = false;
 let delay = BASE_DELAY_MS;
 let started = false;
 
-/** Begin the background loop (idempotent). No-op without an endpoint. */
+/** Begin the background loop (idempotent). No-op without an endpoint or
+ *  in test mode. */
 export function startUploader(): void {
-  if (started || !submitUrl) return;
+  if (started || !submitUrl || inTestMode()) return;
   started = true;
   window.addEventListener("online", kickUploader);
   window.addEventListener("pagehide", beaconOutbox);

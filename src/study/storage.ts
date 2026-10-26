@@ -6,7 +6,7 @@ import type { ChunkBody } from "./sync";
 import { outboxKey } from "./sync";
 import type { ParticipantRecord, SessionRecord } from "./types";
 
-const DB_NAME = "sketcharti";
+let dbName = "sketcharti";
 const DB_VERSION = 2;
 const PARTICIPANT = "participant";
 const SESSIONS = "sessions";
@@ -17,10 +17,22 @@ const PARTICIPANT_KEY = "me";
 const TOKEN_KEY = "uploadToken";
 
 let dbPromise: Promise<IDBDatabase> | undefined;
+let testMode = false;
+
+/** Temporary "test" entry: a separate database, nothing ever queued for
+ *  upload. Call before anything opens the database. */
+export function enterTestMode(): void {
+  testMode = true;
+  dbName = "sketcharti-test";
+}
+
+export function inTestMode(): boolean {
+  return testMode;
+}
 
 function openDb(): Promise<IDBDatabase> {
   dbPromise ??= new Promise((resolve, reject) => {
-    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    const request = indexedDB.open(dbName, DB_VERSION);
     request.onupgradeneeded = () => {
       const db = request.result;
       if (!db.objectStoreNames.contains(PARTICIPANT)) {
@@ -98,7 +110,7 @@ export async function saveSessionWithChunk(
   await new Promise<void>((resolve, reject) => {
     const tx = db.transaction([SESSIONS, OUTBOX], "readwrite");
     tx.objectStore(SESSIONS).put(snapshot);
-    if (chunk) tx.objectStore(OUTBOX).put(chunk, outboxKey(chunk));
+    if (chunk && !testMode) tx.objectStore(OUTBOX).put(chunk, outboxKey(chunk));
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
     tx.onabort = () => reject(tx.error);
@@ -106,6 +118,7 @@ export async function saveSessionWithChunk(
 }
 
 export async function queueChunk(chunk: ChunkBody): Promise<void> {
+  if (testMode) return;
   await run(OUTBOX, "readwrite", (s) => s.put(chunk, outboxKey(chunk)));
 }
 

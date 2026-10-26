@@ -11,10 +11,11 @@
     @finished="onFinished"
   />
   <div v-else class="stage">
-    <span v-if="!loading">Choose a model to begin.</span>
+    <span v-if="!loading && participant">Choose a model to begin.</span>
   </div>
 
-  <StartScreen v-if="!loading && !participant" @done="onConsent" />
+  <ModeChooser v-if="!runMode" @choose="onChooseMode" />
+  <StartScreen v-else-if="!loading && !participant" @done="onConsent" />
   <ModelPicker
     v-else-if="participant && pickerOpen"
     :participant="participant"
@@ -31,13 +32,15 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, ref } from "vue";
+import ModeChooser from "./ModeChooser.vue";
 import StartScreen from "./StartScreen.vue";
 import ModelPicker from "./ModelPicker.vue";
 import Workspace, { type WorkspaceModel } from "./Workspace.vue";
 import HelpOverlay from "./HelpOverlay.vue";
 import type { ModelIndexEntry } from "../reference/model";
 import {
+  enterTestMode,
   loadAllSessions,
   loadParticipant,
   queueChunk,
@@ -49,6 +52,7 @@ import { kickUploader, startUploader } from "../study/uploader";
 import type { ParticipantRecord, SessionRecord } from "../study/types";
 import { serializeDownload } from "../study/download";
 
+const runMode = ref<"study" | "test">();
 const loading = ref(true);
 const participant = ref<ParticipantRecord>();
 const sessions = ref<SessionRecord[]>([]);
@@ -62,14 +66,36 @@ const overlay = computed<"picker" | "help" | null>(() =>
   pickerOpen.value ? "picker" : helpOpen.value ? "help" : null,
 );
 
-onMounted(async () => {
+async function onChooseMode(mode: "study" | "test"): Promise<void> {
+  runMode.value = mode;
+  if (mode === "test") {
+    // a separate local database with its own stand-in participant; nothing
+    // is ever queued for upload
+    enterTestMode();
+    participant.value = (await loadParticipant()) ?? (await createTestParticipant());
+    loading.value = false;
+    await openPicker(null);
+    return;
+  }
   participant.value = await loadParticipant();
   loading.value = false;
   if (participant.value) {
     startUploader(); // drain anything left over from a previous visit
     await openPicker(null);
   }
-});
+}
+
+async function createTestParticipant(): Promise<ParticipantRecord> {
+  const now = Date.now();
+  const record: ParticipantRecord = {
+    id: `test-${crypto.randomUUID()}`,
+    createdAt: now,
+    profile: {},
+    consent: { given: false, at: now, statements: [] },
+  };
+  await saveParticipant(record);
+  return record;
+}
 
 async function openPicker(message: string | null): Promise<void> {
   notice.value = message;
