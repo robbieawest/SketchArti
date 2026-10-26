@@ -35,7 +35,7 @@ interface JointJsonV4 {
   value: number;
 }
 
-function migrateJoint(json: Joint | JointJsonV4): Joint {
+export function migrateJoint(json: Joint | JointJsonV4): Joint {
   if (!("type" in json)) return json;
   const dofs = lockedDofs();
   if (json.type === "revolute") {
@@ -54,7 +54,7 @@ function migrateJoint(json: Joint | JointJsonV4): Joint {
   };
 }
 
-interface StrokeJson {
+export interface StrokeJson {
   id: string;
   points: number[];
   pressure: number[];
@@ -123,18 +123,19 @@ export function deserializeDocument(json: unknown): SketchDocument {
   for (const pose of data.poses ?? []) doc.addPose(pose);
   for (const joint of data.joints ?? []) doc.addJoint(migrateJoint(joint));
   doc.exploded = data.exploded ?? false;
-  for (const s of data.strokes) {
-    const stroke: Stroke = {
-      id: s.id,
-      points: new Float32Array(s.points),
-      pressure: new Float32Array(s.pressure),
-      style: s.style,
-      fill: s.fill,
-      transform: s.transform,
-      surface: s.surface,
-      ...(s.partId !== undefined && { partId: s.partId }),
-    };
-    doc.addStroke(stroke);
-  }
+  for (const s of data.strokes) doc.addStroke(strokeFromJson(s));
   return doc;
+}
+
+export function strokeFromJson(s: StrokeJson): Stroke {
+  return {
+    id: s.id,
+    points: new Float32Array(s.points),
+    pressure: new Float32Array(s.pressure),
+    style: s.style,
+    fill: s.fill,
+    transform: s.transform,
+    surface: s.surface,
+    ...(s.partId !== undefined && { partId: s.partId }),
+  };
 }

@@ -1,6 +1,7 @@
 <template>
+  <ResultsViewer v-if="runMode === 'viewer'" />
   <Workspace
-    v-if="participant && model"
+    v-else-if="participant && model"
     :key="model.id"
     :participant="participant"
     :model="model"
@@ -34,6 +35,7 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import ModeChooser from "./ModeChooser.vue";
+import ResultsViewer from "./ResultsViewer.vue";
 import StartScreen from "./StartScreen.vue";
 import ModelPicker from "./ModelPicker.vue";
 import Workspace, { type WorkspaceModel } from "./Workspace.vue";
@@ -52,7 +54,7 @@ import { kickUploader, startUploader } from "../study/uploader";
 import type { ParticipantRecord, SessionRecord } from "../study/types";
 import { serializeDownload } from "../study/download";
 
-const runMode = ref<"study" | "test">();
+const runMode = ref<"study" | "test" | "viewer">();
 const loading = ref(true);
 const participant = ref<ParticipantRecord>();
 const sessions = ref<SessionRecord[]>([]);
@@ -66,8 +68,9 @@ const overlay = computed<"picker" | "help" | null>(() =>
   pickerOpen.value ? "picker" : helpOpen.value ? "help" : null,
 );
 
-async function onChooseMode(mode: "study" | "test"): Promise<void> {
+async function onChooseMode(mode: "study" | "test" | "viewer"): Promise<void> {
   runMode.value = mode;
+  if (mode === "viewer") return; // reads files only: no participant, no storage
   if (mode === "test") {
     // a separate local database with its own stand-in participant; nothing
     // is ever queued for upload

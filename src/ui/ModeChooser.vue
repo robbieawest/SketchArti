@@ -3,13 +3,15 @@
     <div class="popup" role="dialog" aria-label="Choose how to run">
       <button class="primary" @click="$emit('choose', 'study')">User study</button>
       <button @click="$emit('choose', 'test')">Test</button>
+      <button @click="$emit('choose', 'viewer')">Data viewer</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// Temporary entry point: "Test" skips the start form and never uploads.
-defineEmits<{ choose: [mode: "study" | "test"] }>();
+// Temporary entry point: "Test" skips the start form and never uploads;
+// "Data viewer" opens results.
+defineEmits<{ choose: [mode: "study" | "test" | "viewer"] }>();
 </script>
 
 <style scoped>
