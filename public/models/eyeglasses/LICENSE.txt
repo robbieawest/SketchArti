@@ -1,0 +1,7 @@
+Eyeglasses
+
+Source: Artiverse eyeglasses/fpModel/d2c0aeb28407ba01f6934b50e7078b6a7103f49a (release v1)
+Geometry: HSSD (Habitat Synthetic Scenes Dataset) (https://huggingface.co/datasets/hssd/hssd-models), licensed CC BY-NC 4.0.
+Articulation annotations (joints, part semantics) from Artiverse (https://huggingface.co/datasets/3dlg-hcvc/artiverse), CC BY-NC 4.0.
+
+Changes: parts split into separate files, placed in a shared Y-up frame, converted to glTF, and joints converted to this app's reference format. Shown for non-commercial research (a user study) only.

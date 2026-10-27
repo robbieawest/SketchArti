@@ -1,0 +1,62 @@
+{
+ "name": "Faucet",
+ "license": "LICENSE.txt",
+ "attribution": "Artiverse faucet/3dc200/13_06b (release v1). Geometry: 3DCoMPaT200, CC BY 4.0. Articulation annotations (joints, part semantics) from Artiverse (https://huggingface.co/datasets/3dlg-hcvc/artiverse), CC BY-NC 4.0.",
+ "parts": [
+  {
+   "id": "base",
+   "name": "Base",
+   "mesh": "parts/base.glb"
+  },
+  {
+   "id": "spout",
+   "name": "Spout",
+   "mesh": "parts/spout.glb"
+  },
+  {
+   "id": "switch",
+   "name": "Switch",
+   "mesh": "parts/switch.glb"
+  }
+ ],
+ "joints": [
+  {
+   "id": "j-spout",
+   "name": "Spout",
+   "parent": "base",
+   "child": "spout",
+   "origin": [
+    0.05181,
+    -0.149742,
+    -0.063374
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "type": "revolute",
+   "limit": [
+    -1.570796,
+    1.570796
+   ]
+  },
+  {
+   "id": "j-switch",
+   "name": "Switch",
+   "parent": "base",
+   "child": "switch",
+   "origin": [
+    -0.051991,
+    -0.151468,
+    -0.063469
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "type": "continuous"
+  }
+ ]
+}

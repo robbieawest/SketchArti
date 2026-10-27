@@ -1,0 +1,66 @@
+{
+ "name": "Eyeglasses",
+ "license": "LICENSE.txt",
+ "attribution": "Artiverse eyeglasses/fpModel/d2c0aeb28407ba01f6934b50e7078b6a7103f49a (release v1). Geometry: HSSD (Habitat Synthetic Scenes Dataset), CC BY-NC 4.0. Articulation annotations (joints, part semantics) from Artiverse (https://huggingface.co/datasets/3dlg-hcvc/artiverse), CC BY-NC 4.0.",
+ "parts": [
+  {
+   "id": "frame-base",
+   "name": "Frame base",
+   "mesh": "parts/frame-base.glb"
+  },
+  {
+   "id": "temple-1",
+   "name": "Temple 1",
+   "mesh": "parts/temple-1.glb"
+  },
+  {
+   "id": "temple-2",
+   "name": "Temple 2",
+   "mesh": "parts/temple-2.glb"
+  }
+ ],
+ "joints": [
+  {
+   "id": "j-temple-1",
+   "name": "Temple 1",
+   "parent": "frame-base",
+   "child": "temple-1",
+   "origin": [
+    0.064633,
+    0.006508,
+    0.053559
+   ],
+   "axis": [
+    -0.073109,
+    0.994928,
+    0.069082
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    1.570796
+   ]
+  },
+  {
+   "id": "j-temple-2",
+   "name": "Temple 2",
+   "parent": "frame-base",
+   "child": "temple-2",
+   "origin": [
+    -0.064651,
+    0.006476,
+    0.053582
+   ],
+   "axis": [
+    -0.071007,
+    -0.995511,
+    -0.062582
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    1.570796
+   ]
+  }
+ ]
+}

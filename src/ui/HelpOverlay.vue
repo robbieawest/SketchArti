@@ -1,6 +1,6 @@
 <template>
   <PopupFrame title="Help" :closable="true" @close="$emit('close')">
-      <p class="todo">A step-by-step tutorial will go here. For now, a summary of the controls:</p>
+      <p class="todo">A summary of the controls. For a step-by-step walkthrough, open the Tutorial.</p>
 
       <h3>Moving the view (both sides)</h3>
       <table>

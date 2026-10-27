@@ -73,7 +73,7 @@ describe("reference model kinematics", () => {
   it("animates within range", () => {
     const hinge = model.joints[0];
     for (let t = 0; t < 8; t += 0.37) {
-      const v = animatedValue(hinge, 0, t);
+      const v = animatedValue(hinge, t);
       const [lo, hi] = jointRange(hinge);
       expect(v).toBeGreaterThanOrEqual(lo - 1e-9);
       expect(v).toBeLessThanOrEqual(hi + 1e-9);

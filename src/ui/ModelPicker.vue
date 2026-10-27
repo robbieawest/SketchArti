@@ -12,6 +12,7 @@
       >
         Download data
       </button>
+      <button class="help" @click="$emit('tutorial')">Tutorial</button>
       <button class="help" @click="$emit('help')">Help</button>
     </template>
 
@@ -24,9 +25,36 @@
     </p>
 
     <p v-if="error" class="notice error">{{ error }}</p>
+
+    <section v-if="practice.length" class="practice">
+      <div class="practice-text">
+        <h3>Practise first</h3>
+        <p>
+          New to the tools? Try them on this simple lamp before starting the
+          study models. Practice work is saved too, but you can use it however
+          you like.
+        </p>
+      </div>
+      <button
+        v-for="entry in practice"
+        :key="entry.id"
+        class="model-card"
+        :class="{ current: entry.id === currentModelId }"
+        @click="open(entry)"
+      >
+        <div class="thumb">
+          <img v-if="entry.thumbnail" :src="resolve(entry.thumbnail)" :alt="entry.name" />
+          <span v-else class="initial">{{ entry.name.charAt(0) }}</span>
+        </div>
+        <span class="name">{{ entry.name }}</span>
+        <span class="state" :class="stateOf(entry.id).kind">{{ stateOf(entry.id).label }}</span>
+      </button>
+    </section>
+
+    <h3 v-if="practice.length" class="models-heading">Study models</h3>
     <div class="grid">
       <button
-        v-for="entry in entries"
+        v-for="entry in study"
         :key="entry.id"
         class="model-card"
         :class="{ current: entry.id === currentModelId }"
@@ -45,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import PopupFrame from "./PopupFrame.vue";
 import { STUDY_CONFIG } from "./studyConfig";
 import type { ModelIndexEntry } from "../reference/model";
@@ -63,12 +91,15 @@ const props = defineProps<{
 const emit = defineEmits<{
   open: [entry: ModelIndexEntry, url: string];
   help: [];
+  tutorial: [];
   close: [];
   download: [];
 }>();
 
 const indexUrl = new URL("models/index.json", document.baseURI).href;
 const entries = ref<ModelIndexEntry[]>([]);
+const practice = computed(() => entries.value.filter((e) => e.practice));
+const study = computed(() => entries.value.filter((e) => !e.practice));
 const error = ref("");
 
 onMounted(async () => {
@@ -131,6 +162,40 @@ function stateOf(modelId: string): { kind: string; label: string } {
 
 .notice.error {
   background: #ffe0e0;
+}
+
+.practice {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 20px;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  background: #fff3d6;
+}
+
+.practice h3,
+.models-heading {
+  margin: 0 0 6px;
+}
+
+.practice p {
+  margin: 0;
+}
+
+.practice .model-card {
+  background: #ffffff;
+}
+
+.models-heading {
+  margin-bottom: 12px;
+}
+
+@media (max-width: 640px) {
+  .practice {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .grid {

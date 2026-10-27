@@ -1,0 +1,192 @@
+{
+ "name": "Robotic arm",
+ "license": "LICENSE.txt",
+ "attribution": "Articraft-10K rec_a-realistic-model-of-a-robotic-arm-that-is-fully_20260319_025530_865163_179489fc. Geometry: Articraft-10K, CC BY 4.0.",
+ "parts": [
+  {
+   "id": "pedestal",
+   "name": "Pedestal",
+   "mesh": "parts/pedestal.glb"
+  },
+  {
+   "id": "turret",
+   "name": "Turret",
+   "mesh": "parts/turret.glb"
+  },
+  {
+   "id": "upper-arm",
+   "name": "Upper arm",
+   "mesh": "parts/upper-arm.glb"
+  },
+  {
+   "id": "forearm",
+   "name": "Forearm",
+   "mesh": "parts/forearm.glb"
+  },
+  {
+   "id": "wrist",
+   "name": "Wrist",
+   "mesh": "parts/wrist.glb"
+  },
+  {
+   "id": "tool-head",
+   "name": "Tool head",
+   "mesh": "parts/tool-head.glb"
+  },
+  {
+   "id": "left-finger",
+   "name": "Left finger",
+   "mesh": "parts/left-finger.glb"
+  },
+  {
+   "id": "right-finger",
+   "name": "Right finger",
+   "mesh": "parts/right-finger.glb"
+  }
+ ],
+ "joints": [
+  {
+   "id": "j-turret",
+   "name": "Turret",
+   "parent": "pedestal",
+   "child": "turret",
+   "origin": [
+    0.0,
+    0.127,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "type": "revolute",
+   "limit": [
+    -2.9,
+    2.9
+   ]
+  },
+  {
+   "id": "j-upper-arm",
+   "name": "Upper arm",
+   "parent": "turret",
+   "child": "upper-arm",
+   "origin": [
+    0.0,
+    0.341,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "type": "revolute",
+   "limit": [
+    -0.75,
+    1.55
+   ]
+  },
+  {
+   "id": "j-forearm",
+   "name": "Forearm",
+   "parent": "upper-arm",
+   "child": "forearm",
+   "origin": [
+    0.34,
+    0.341,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "type": "revolute",
+   "limit": [
+    -0.25,
+    2.35
+   ]
+  },
+  {
+   "id": "j-wrist",
+   "name": "Wrist",
+   "parent": "forearm",
+   "child": "wrist",
+   "origin": [
+    0.64,
+    0.341,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "type": "revolute",
+   "limit": [
+    -1.45,
+    1.55
+   ]
+  },
+  {
+   "id": "j-tool-head",
+   "name": "Tool head",
+   "parent": "wrist",
+   "child": "tool-head",
+   "origin": [
+    0.734,
+    0.341,
+    0.0
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-left-finger",
+   "name": "Left finger",
+   "parent": "tool-head",
+   "child": "left-finger",
+   "origin": [
+    0.762,
+    0.341,
+    -0.028
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    -1.0
+   ],
+   "type": "prismatic",
+   "limit": [
+    0.0,
+    0.018
+   ]
+  },
+  {
+   "id": "j-right-finger",
+   "name": "Right finger",
+   "parent": "tool-head",
+   "child": "right-finger",
+   "origin": [
+    0.762,
+    0.341,
+    0.028
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "type": "prismatic",
+   "limit": [
+    0.0,
+    0.018
+   ]
+  }
+ ]
+}

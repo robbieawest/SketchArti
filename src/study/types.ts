@@ -66,6 +66,21 @@ export interface ParticipantRecord {
   /** Answers from the start screen, keyed by question id. */
   profile: Record<string, string>;
   consent: { given: boolean; at: number; statements: string[] };
+  /** Every time the tutorial was open. */
+  tutorial?: TutorialView[];
+}
+
+export interface TutorialView {
+  openedAt: number;
+  /** Unset while open (or if the page closed with it open). */
+  closedAt?: number;
+  /** The first-launch showing, which only Start closes. */
+  first: boolean;
+  /** Where it was opened from. */
+  from: "start" | "workspace" | "picker";
+  /** Furthest point scrolled to, 0–1. */
+  maxScroll?: number;
+  closedBy?: "start" | "close";
 }
 
 export interface SessionRecord {

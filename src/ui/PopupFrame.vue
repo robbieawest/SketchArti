@@ -9,7 +9,7 @@
           ✕
         </button>
       </header>
-      <div class="content">
+      <div ref="contentEl" class="content">
         <slot />
       </div>
     </div>
@@ -17,6 +17,12 @@
 </template>
 
 <script setup lang="ts">
+import { useTemplateRef } from "vue";
+
+/** The scrolling content area, for popups that track or restore scroll. */
+const contentEl = useTemplateRef<HTMLElement>("contentEl");
+defineExpose({ contentEl });
+
 defineProps<{
   title: string;
   /** Whether the popup can be dismissed (✕, backdrop click). */

@@ -1,0 +1,312 @@
+{
+ "name": "Floor lamp",
+ "license": "LICENSE.txt",
+ "attribution": "Artiverse floor_lamp/abo/B073P3HHFV (release v1). Geometry: Amazon Berkeley Objects (ABO), CC BY 4.0. Articulation annotations (joints, part semantics) from Artiverse (https://huggingface.co/datasets/3dlg-hcvc/artiverse), CC BY-NC 4.0.",
+ "parts": [
+  {
+   "id": "arm-1",
+   "name": "Arm 1",
+   "mesh": "parts/arm-1.glb"
+  },
+  {
+   "id": "lightbulb-1",
+   "name": "Lightbulb 1",
+   "mesh": "parts/lightbulb-1.glb"
+  },
+  {
+   "id": "knob-1",
+   "name": "Knob 1",
+   "mesh": "parts/knob-1.glb"
+  },
+  {
+   "id": "shade-1",
+   "name": "Shade 1",
+   "mesh": "parts/shade-1.glb"
+  },
+  {
+   "id": "shade-2",
+   "name": "Shade 2",
+   "mesh": "parts/shade-2.glb"
+  },
+  {
+   "id": "shade-3",
+   "name": "Shade 3",
+   "mesh": "parts/shade-3.glb"
+  },
+  {
+   "id": "lightbulb-2",
+   "name": "Lightbulb 2",
+   "mesh": "parts/lightbulb-2.glb"
+  },
+  {
+   "id": "lightbulb-3",
+   "name": "Lightbulb 3",
+   "mesh": "parts/lightbulb-3.glb"
+  },
+  {
+   "id": "base",
+   "name": "Base",
+   "mesh": "parts/base.glb"
+  },
+  {
+   "id": "arm-2",
+   "name": "Arm 2",
+   "mesh": "parts/arm-2.glb"
+  },
+  {
+   "id": "arm-3",
+   "name": "Arm 3",
+   "mesh": "parts/arm-3.glb"
+  },
+  {
+   "id": "arm-4",
+   "name": "Arm 4",
+   "mesh": "parts/arm-4.glb"
+  },
+  {
+   "id": "knob-2",
+   "name": "Knob 2",
+   "mesh": "parts/knob-2.glb"
+  },
+  {
+   "id": "knob-3",
+   "name": "Knob 3",
+   "mesh": "parts/knob-3.glb"
+  }
+ ],
+ "joints": [
+  {
+   "id": "j-arm-1",
+   "name": "Arm 1",
+   "parent": "base",
+   "child": "arm-1",
+   "origin": [
+    -0.076028,
+    -0.08471,
+    -0.013205
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-lightbulb-1",
+   "name": "Lightbulb 1",
+   "parent": "shade-2",
+   "child": "lightbulb-1",
+   "origin": [
+    -0.213746,
+    0.627417,
+    0.23857
+   ],
+   "axis": [
+    -0.252211,
+    -0.839935,
+    0.48052
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-knob-1",
+   "name": "Knob 1",
+   "parent": "arm-2",
+   "child": "knob-1",
+   "origin": [
+    -0.127634,
+    0.382768,
+    -0.031957
+   ],
+   "axis": [
+    -0.937485,
+    -0.0,
+    -0.348026
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-lightbulb-2",
+   "name": "Lightbulb 2",
+   "parent": "shade-1",
+   "child": "lightbulb-2",
+   "origin": [
+    0.096665,
+    0.815847,
+    -0.258709
+   ],
+   "axis": [
+    -0.148974,
+    -0.888433,
+    -0.434159
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-lightbulb-3",
+   "name": "Lightbulb 3",
+   "parent": "shade-3",
+   "child": "lightbulb-3",
+   "origin": [
+    0.272808,
+    0.605558,
+    0.041145
+   ],
+   "axis": [
+    -0.242044,
+    -0.962695,
+    0.120968
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-arm-2",
+   "name": "Arm 2",
+   "parent": "arm-1",
+   "child": "arm-2",
+   "origin": [
+    -0.120496,
+    0.393199,
+    -0.016975
+   ],
+   "axis": [
+    -0.936038,
+    -0.0,
+    -0.3519
+   ],
+   "type": "revolute",
+   "limit": [
+    -0.244346,
+    0.314159
+   ]
+  },
+  {
+   "id": "j-arm-3",
+   "name": "Arm 3",
+   "parent": "arm-1",
+   "child": "arm-3",
+   "origin": [
+    -0.032114,
+    0.613955,
+    0.00306
+   ],
+   "axis": [
+    -0.861558,
+    -0.0,
+    -0.507659
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    0.785398
+   ]
+  },
+  {
+   "id": "j-arm-4",
+   "name": "Arm 4",
+   "parent": "arm-1",
+   "child": "arm-4",
+   "origin": [
+    -0.064076,
+    0.503981,
+    0.036392
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    0.488692
+   ]
+  },
+  {
+   "id": "j-knob-2",
+   "name": "Knob 2",
+   "parent": "arm-4",
+   "child": "knob-2",
+   "origin": [
+    -0.07554,
+    0.49898,
+    0.047858
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-knob-3",
+   "name": "Knob 3",
+   "parent": "arm-3",
+   "child": "knob-3",
+   "origin": [
+    -0.026058,
+    0.602873,
+    0.014504
+   ],
+   "axis": [
+    -0.866025,
+    -0.0,
+    -0.5
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-shade-1",
+   "name": "Shade 1 (fixed)",
+   "parent": "arm-3",
+   "child": "shade-1",
+   "origin": [
+    -0.032114,
+    0.613955,
+    0.00306
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "type": "fixed"
+  },
+  {
+   "id": "j-shade-2",
+   "name": "Shade 2 (fixed)",
+   "parent": "arm-2",
+   "child": "shade-2",
+   "origin": [
+    -0.120496,
+    0.393199,
+    -0.016975
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "type": "fixed"
+  },
+  {
+   "id": "j-shade-3",
+   "name": "Shade 3 (fixed)",
+   "parent": "arm-4",
+   "child": "shade-3",
+   "origin": [
+    -0.064076,
+    0.503981,
+    0.036392
+   ],
+   "axis": [
+    1.0,
+    0.0,
+    0.0
+   ],
+   "type": "fixed"
+  }
+ ]
+}

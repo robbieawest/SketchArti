@@ -1,6 +1,6 @@
 {
-  "name": "Desk lamp (placeholder)",
-  "attribution": "Built from primitives for development; not a dataset model.",
+  "name": "Desk lamp (practice)",
+  "attribution": "Built from simple shapes for practice; not a dataset model.",
   "parts": [
     { "id": "base", "name": "Base", "primitive": { "type": "cylinder", "radius": 0.3, "height": 0.06 }, "position": [0, 0.03, 0] },
     { "id": "turret", "name": "Turret", "primitive": { "type": "cylinder", "radius": 0.08, "height": 0.12 }, "position": [0, 0.12, 0] },

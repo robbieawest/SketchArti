@@ -20,16 +20,16 @@ export const HIGHLIGHT_COLORS: Record<HighlightKind, THREE.Color> = {
  *  Steers clear of the highlight hues above so a tinted stroke still reads
  *  as selected. Derived at render time only — stroke styles are untouched. */
 export const PART_PALETTE = [
-  "#1f77b4", // blue
-  "#2ca02c", // green
-  "#d62728", // red
-  "#17becf", // cyan
-  "#8c564b", // brown
-  "#e377c2", // pink
-  "#3f6e5a", // dark teal
-  "#7f7f7f", // grey
-  "#1a3d7c", // navy
-  "#9e9a00", // olive
+  "#4f86c6", // cornflower blue
+  "#5aa47a", // sage green
+  "#e0705f", // coral
+  "#3fa9b5", // teal
+  "#c98a5e", // terracotta
+  "#d77fa6", // rose
+  "#6c8f4e", // moss
+  "#7d8fb3", // slate blue
+  "#b5a04a", // ochre
+  "#8a7262", // walnut
 ];
 
 export function partColor(index: number): string {

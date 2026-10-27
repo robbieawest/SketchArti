@@ -1,0 +1,307 @@
+{
+ "name": "Office stool",
+ "license": "LICENSE.txt",
+ "attribution": "Artiverse swivel_chair/abo/B07HGD179J (release v1). Geometry: Amazon Berkeley Objects (ABO), CC BY 4.0. Articulation annotations (joints, part semantics) from Artiverse (https://huggingface.co/datasets/3dlg-hcvc/artiverse), CC BY-NC 4.0.",
+ "parts": [
+  {
+   "id": "support-stage",
+   "name": "Support stage"
+  },
+  {
+   "id": "caster-connector-1",
+   "name": "Caster connector 1",
+   "mesh": "parts/caster-connector-1.glb"
+  },
+  {
+   "id": "caster-connector-2",
+   "name": "Caster connector 2",
+   "mesh": "parts/caster-connector-2.glb"
+  },
+  {
+   "id": "caster-connector-3",
+   "name": "Caster connector 3",
+   "mesh": "parts/caster-connector-3.glb"
+  },
+  {
+   "id": "caster-connector-4",
+   "name": "Caster connector 4",
+   "mesh": "parts/caster-connector-4.glb"
+  },
+  {
+   "id": "caster-connector-5",
+   "name": "Caster connector 5",
+   "mesh": "parts/caster-connector-5.glb"
+  },
+  {
+   "id": "chair-base",
+   "name": "Chair base",
+   "mesh": "parts/chair-base.glb"
+  },
+  {
+   "id": "wheel-1",
+   "name": "Wheel 1",
+   "mesh": "parts/wheel-1.glb"
+  },
+  {
+   "id": "wheel-2",
+   "name": "Wheel 2",
+   "mesh": "parts/wheel-2.glb"
+  },
+  {
+   "id": "wheel-3",
+   "name": "Wheel 3",
+   "mesh": "parts/wheel-3.glb"
+  },
+  {
+   "id": "wheel-4",
+   "name": "Wheel 4",
+   "mesh": "parts/wheel-4.glb"
+  },
+  {
+   "id": "wheel-5",
+   "name": "Wheel 5",
+   "mesh": "parts/wheel-5.glb"
+  },
+  {
+   "id": "support",
+   "name": "Support",
+   "mesh": "parts/support.glb"
+  },
+  {
+   "id": "lever",
+   "name": "Lever",
+   "mesh": "parts/lever.glb"
+  }
+ ],
+ "joints": [
+  {
+   "id": "j-caster-connector-1",
+   "name": "Caster connector 1",
+   "parent": "chair-base",
+   "child": "caster-connector-1",
+   "origin": [
+    0.167899,
+    -0.171337,
+    -0.263793
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-caster-connector-2",
+   "name": "Caster connector 2",
+   "parent": "chair-base",
+   "child": "caster-connector-2",
+   "origin": [
+    0.271812,
+    -0.171371,
+    0.06024
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-caster-connector-3",
+   "name": "Caster connector 3",
+   "parent": "chair-base",
+   "child": "caster-connector-3",
+   "origin": [
+    -0.17459,
+    -0.171373,
+    -0.260964
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-caster-connector-4",
+   "name": "Caster connector 4",
+   "parent": "chair-base",
+   "child": "caster-connector-4",
+   "origin": [
+    -0.271655,
+    -0.171371,
+    0.064679
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-caster-connector-5",
+   "name": "Caster connector 5",
+   "parent": "chair-base",
+   "child": "caster-connector-5",
+   "origin": [
+    0.001012,
+    -0.17134,
+    0.264512
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-wheel-1",
+   "name": "Wheel 1",
+   "parent": "caster-connector-1",
+   "child": "wheel-1",
+   "origin": [
+    0.178038,
+    -0.217362,
+    -0.276668
+   ],
+   "axis": [
+    0.779939,
+    0.000163,
+    0.625855
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-wheel-2",
+   "name": "Wheel 2",
+   "parent": "caster-connector-2",
+   "child": "wheel-2",
+   "origin": [
+    0.287356,
+    -0.217372,
+    0.066089
+   ],
+   "axis": [
+    -0.353537,
+    0.001185,
+    0.93542
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-wheel-3",
+   "name": "Wheel 3",
+   "parent": "caster-connector-3",
+   "child": "wheel-3",
+   "origin": [
+    -0.18378,
+    -0.217362,
+    -0.274495
+   ],
+   "axis": [
+    -0.836523,
+    0.000152,
+    0.547932
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-wheel-4",
+   "name": "Wheel 4",
+   "parent": "caster-connector-4",
+   "child": "wheel-4",
+   "origin": [
+    -0.287608,
+    -0.217364,
+    0.069217
+   ],
+   "axis": [
+    0.263731,
+    0.000444,
+    0.964596
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-wheel-5",
+   "name": "Wheel 5",
+   "parent": "caster-connector-5",
+   "child": "wheel-5",
+   "origin": [
+    0.000427,
+    -0.217359,
+    0.281247
+   ],
+   "axis": [
+    -0.998827,
+    -6.5e-05,
+    -0.048412
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-support-stage",
+   "name": "Support stage",
+   "parent": "chair-base",
+   "child": "support-stage",
+   "origin": [
+    -0.001335,
+    0.035092,
+    -0.026757
+   ],
+   "axis": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "type": "prismatic",
+   "limit": [
+    0.0,
+    0.02
+   ]
+  },
+  {
+   "id": "j-support",
+   "name": "Support",
+   "parent": "support-stage",
+   "child": "support",
+   "origin": [
+    -0.001335,
+    0.035092,
+    -0.026757
+   ],
+   "axis": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-lever",
+   "name": "Lever",
+   "parent": "support",
+   "child": "lever",
+   "origin": [
+    -0.021259,
+    0.117085,
+    -0.019381
+   ],
+   "axis": [
+    -0.214789,
+    -0.0,
+    -0.97666
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    0.245
+   ]
+  }
+ ]
+}

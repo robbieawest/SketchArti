@@ -1,0 +1,7 @@
+Office stool
+
+Source: Artiverse swivel_chair/abo/B07HGD179J (release v1)
+Geometry: Amazon Berkeley Objects (ABO) (https://amazon-berkeley-objects.s3.amazonaws.com/index.html), licensed CC BY 4.0.
+Articulation annotations (joints, part semantics) from Artiverse (https://huggingface.co/datasets/3dlg-hcvc/artiverse), CC BY-NC 4.0.
+
+Changes: parts split into separate files, placed in a shared Y-up frame, converted to glTF, and joints converted to this app's reference format. Shown for non-commercial research (a user study) only.

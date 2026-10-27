@@ -1,0 +1,7 @@
+Faucet
+
+Source: Artiverse faucet/3dc200/13_06b (release v1)
+Geometry: 3DCoMPaT200 (https://huggingface.co/datasets/CoMPaT/3DCoMPaT200), licensed CC BY 4.0.
+Articulation annotations (joints, part semantics) from Artiverse (https://huggingface.co/datasets/3dlg-hcvc/artiverse), CC BY-NC 4.0.
+
+Changes: parts split into separate files, placed in a shared Y-up frame, converted to glTF, and joints converted to this app's reference format. Shown for non-commercial research (a user study) only.

@@ -1,0 +1,106 @@
+{
+ "name": "Microwave",
+ "license": "LICENSE.txt",
+ "attribution": "Artiverse microwave/3dc200/7e_00d (release v0.1). Geometry: 3DCoMPaT200, CC BY 4.0. Articulation annotations (joints, part semantics) from Artiverse (https://huggingface.co/datasets/3dlg-hcvc/artiverse), CC BY-NC 4.0.",
+ "parts": [
+  {
+   "id": "base",
+   "name": "Base",
+   "mesh": "parts/base.glb"
+  },
+  {
+   "id": "knob-1",
+   "name": "Knob 1",
+   "mesh": "parts/knob-1.glb"
+  },
+  {
+   "id": "knob-2",
+   "name": "Knob 2",
+   "mesh": "parts/knob-2.glb"
+  },
+  {
+   "id": "door",
+   "name": "Door",
+   "mesh": "parts/door.glb"
+  },
+  {
+   "id": "turntable",
+   "name": "Turntable",
+   "mesh": "parts/turntable.glb"
+  }
+ ],
+ "joints": [
+  {
+   "id": "j-knob-1",
+   "name": "Knob 1",
+   "parent": "base",
+   "child": "knob-1",
+   "origin": [
+    0.181752,
+    0.050793,
+    0.119373
+   ],
+   "axis": [
+    0.0,
+    -0.0,
+    -1.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-knob-2",
+   "name": "Knob 2",
+   "parent": "base",
+   "child": "knob-2",
+   "origin": [
+    0.180504,
+    -0.047703,
+    0.119373
+   ],
+   "axis": [
+    0.0,
+    -0.0,
+    -1.0
+   ],
+   "type": "continuous"
+  },
+  {
+   "id": "j-door",
+   "name": "Door",
+   "parent": "base",
+   "child": "door",
+   "origin": [
+    -0.242555,
+    -0.002211,
+    0.060859
+   ],
+   "axis": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    1.570796
+   ]
+  },
+  {
+   "id": "j-turntable",
+   "name": "Turntable",
+   "parent": "base",
+   "child": "turntable",
+   "origin": [
+    -0.059558,
+    -0.106126,
+    -0.032162
+   ],
+   "axis": [
+    0.0,
+    1.0,
+    -0.0
+   ],
+   "type": "continuous"
+  }
+ ]
+}

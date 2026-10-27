@@ -1,16 +1,61 @@
 {
   "models": [
     {
-      "id": "placeholder-cabinet",
-      "name": "Cabinet (placeholder)",
-      "path": "placeholder-cabinet/model.json",
-      "description": "Development placeholder: a hinged lid and a sliding drawer."
+      "id": "practice-lamp",
+      "name": "Desk lamp",
+      "path": "practice-lamp/model.json",
+      "thumbnail": "practice-lamp/thumbnail.png",
+      "description": "Practise here first: simple shapes, four joints.",
+      "practice": true
     },
     {
-      "id": "placeholder-lamp",
-      "name": "Desk lamp (placeholder)",
-      "path": "placeholder-lamp/model.json",
-      "description": "Development placeholder: a swivelling base and a three-joint arm."
+      "id": "eyeglasses",
+      "name": "Eyeglasses",
+      "path": "eyeglasses/model.json",
+      "thumbnail": "eyeglasses/thumbnail.png",
+      "description": "Curved arms folding on two tilted hinges."
+    },
+    {
+      "id": "chest-of-drawers",
+      "name": "Chest of drawers",
+      "path": "chest-of-drawers/model.json",
+      "thumbnail": "chest-of-drawers/thumbnail.png",
+      "description": "Four sliding drawers and a hinged door, each with a swinging ring pull."
+    },
+    {
+      "id": "faucet",
+      "name": "Faucet",
+      "path": "faucet/model.json",
+      "thumbnail": "faucet/thumbnail.png",
+      "description": "A curved spout that swings and a handle that turns."
+    },
+    {
+      "id": "microwave",
+      "name": "Microwave",
+      "path": "microwave/model.json",
+      "thumbnail": "microwave/thumbnail.png",
+      "description": "A hinged door, two dials and a turntable."
+    },
+    {
+      "id": "floor-lamp",
+      "name": "Floor lamp",
+      "path": "floor-lamp/model.json",
+      "thumbnail": "floor-lamp/thumbnail.png",
+      "description": "Three adjustable arms on a turning stem."
+    },
+    {
+      "id": "swivel-chair",
+      "name": "Office stool",
+      "path": "swivel-chair/model.json",
+      "thumbnail": "swivel-chair/thumbnail.png",
+      "description": "Swivel seat, height adjustment, lever and castors."
+    },
+    {
+      "id": "robotic-arm",
+      "name": "Robotic arm",
+      "path": "robotic-arm/model.json",
+      "thumbnail": "robotic-arm/thumbnail.png",
+      "description": "A chain of rotating joints ending in a sliding gripper."
     }
   ]
 }

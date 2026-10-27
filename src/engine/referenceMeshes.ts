@@ -23,7 +23,9 @@ export async function loadReferenceParts(
     model.parts.map(async (part, index) => {
       const object = part.mesh
         ? await loadMesh(new URL(part.mesh, baseUrl).href)
-        : primitiveMesh(part.primitive!);
+        : part.primitive
+          ? primitiveMesh(part.primitive)
+          : new THREE.Group(); // invisible connector
       if (part.primitive && part.position) object.position.fromArray(part.position);
       object.name = part.name;
       return {
@@ -37,11 +39,13 @@ export async function loadReferenceParts(
 }
 
 function primitiveMesh(primitive: PartPrimitive): THREE.Object3D {
+  const material = () => new THREE.MeshStandardMaterial({ color: 0xc9c9c9, roughness: 0.65 });
   if (primitive.type === "box") {
-    return new THREE.Mesh(new THREE.BoxGeometry(...primitive.size));
+    return new THREE.Mesh(new THREE.BoxGeometry(...primitive.size), material());
   }
   const mesh = new THREE.Mesh(
     new THREE.CylinderGeometry(primitive.radius, primitive.radius, primitive.height, 32),
+    material(),
   );
   if (primitive.axis === "x") mesh.rotation.z = Math.PI / 2;
   if (primitive.axis === "z") mesh.rotation.x = Math.PI / 2;
@@ -54,6 +58,12 @@ async function loadMesh(url: string): Promise<THREE.Object3D> {
     return new OBJLoader().loadAsync(url);
   }
   const gltf = await new GLTFLoader().loadAsync(url);
+  gltf.scene.traverse((child) => {
+    // meshes exported without normals would light as solid black
+    if (child instanceof THREE.Mesh && !child.geometry.getAttribute("normal")) {
+      child.geometry.computeVertexNormals();
+    }
+  });
   return gltf.scene;
 }
 

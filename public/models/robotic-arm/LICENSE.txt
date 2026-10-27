@@ -1,0 +1,6 @@
+Robotic arm
+
+Source: Articraft-10K rec_a-realistic-model-of-a-robotic-arm-that-is-fully_20260319_025530_865163_179489fc
+Geometry: Articraft-10K (https://huggingface.co/datasets/camvsl/Articraft-10K), licensed CC BY 4.0.
+
+Changes: parts split into separate files, placed in a shared Y-up frame, converted to glTF, and joints converted to this app's reference format. Shown for non-commercial research (a user study) only.

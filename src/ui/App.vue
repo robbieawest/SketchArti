@@ -7,6 +7,7 @@
     :model="model"
     :overlay="overlay"
     @help="helpOpen = true"
+    @tutorial="openTutorial(false, 'workspace')"
     @models="openPicker(null)"
     @download="downloadAll"
     @finished="onFinished"
@@ -26,20 +27,28 @@
     :notice="notice"
     @open="openModel"
     @help="helpOpen = true"
+    @tutorial="openTutorial(false, 'picker')"
     @close="pickerOpen = false"
     @download="downloadAll"
+  />
+  <TutorialOverlay
+    v-if="tutorial"
+    :first="tutorial.first"
+    @start="closeTutorial('start', $event)"
+    @close="closeTutorial('close', $event)"
   />
   <HelpOverlay v-if="helpOpen" @close="helpOpen = false" />
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, toRaw } from "vue";
 import ModeChooser from "./ModeChooser.vue";
 import ResultsViewer from "./ResultsViewer.vue";
 import StartScreen from "./StartScreen.vue";
 import ModelPicker from "./ModelPicker.vue";
 import Workspace, { type WorkspaceModel } from "./Workspace.vue";
 import HelpOverlay from "./HelpOverlay.vue";
+import TutorialOverlay, { type TutorialProgress } from "./TutorialOverlay.vue";
 import type { ModelIndexEntry } from "../reference/model";
 import {
   enterTestMode,
@@ -51,7 +60,7 @@ import {
 } from "../study/storage";
 import { participantChunk } from "../study/sync";
 import { kickUploader, startUploader } from "../study/uploader";
-import type { ParticipantRecord, SessionRecord } from "../study/types";
+import type { ParticipantRecord, SessionRecord, TutorialView } from "../study/types";
 import { serializeDownload } from "../study/download";
 
 const runMode = ref<"study" | "test" | "viewer">();
@@ -61,11 +70,19 @@ const sessions = ref<SessionRecord[]>([]);
 const model = ref<WorkspaceModel>();
 const pickerOpen = ref(false);
 const helpOpen = ref(false);
+/** The open tutorial and the view being recorded for it. */
+const tutorial = ref<{ first: boolean; view: TutorialView } | null>(null);
 const notice = ref<string | null>(null);
 
 /** Which popup covers the workspace, so it can log/pause accordingly. */
-const overlay = computed<"picker" | "help" | null>(() =>
-  pickerOpen.value ? "picker" : helpOpen.value ? "help" : null,
+const overlay = computed<"picker" | "tutorial" | "help" | null>(() =>
+  tutorial.value
+    ? "tutorial"
+    : pickerOpen.value
+      ? "picker"
+      : helpOpen.value
+        ? "help"
+        : null,
 );
 
 async function onChooseMode(mode: "study" | "test" | "viewer"): Promise<void> {
@@ -85,6 +102,44 @@ async function onChooseMode(mode: "study" | "test" | "viewer"): Promise<void> {
   if (participant.value) {
     startUploader(); // drain anything left over from a previous visit
     await openPicker(null);
+    // consented but left before finishing the first tutorial: show it again
+    if (!tutorialDone(participant.value)) openTutorial(true, "start");
+  }
+}
+
+function tutorialDone(record: ParticipantRecord): boolean {
+  return record.tutorial?.some((v) => v.closedBy === "start") ?? false;
+}
+
+function openTutorial(first: boolean, from: TutorialView["from"]): void {
+  const record = participant.value && toRaw(participant.value);
+  if (!record) return;
+  const view: TutorialView = { openedAt: Date.now(), first, from };
+  (record.tutorial ??= []).push(view);
+  tutorial.value = { first, view };
+  void persistParticipant();
+}
+
+function closeTutorial(by: "start" | "close", progress: TutorialProgress): void {
+  const open = tutorial.value;
+  if (!open) return;
+  Object.assign(toRaw(open).view, { closedAt: Date.now(), closedBy: by, ...progress });
+  tutorial.value = null;
+  void persistParticipant();
+  if (open.first) helpOpen.value = true; // first visit: the controls next
+}
+
+/** Save the participant record and re-send it: the endpoint keeps one
+ *  participant record, so this replaces the earlier copy. */
+async function persistParticipant(): Promise<void> {
+  const record = participant.value && structuredClone(toRaw(participant.value));
+  if (!record) return;
+  try {
+    await saveParticipant(record);
+    await queueChunk(participantChunk(record));
+    kickUploader();
+  } catch (error) {
+    console.error("saving participant:", error);
   }
 }
 
@@ -114,7 +169,7 @@ async function onConsent(record: ParticipantRecord): Promise<void> {
   startUploader();
   kickUploader();
   await openPicker(null);
-  helpOpen.value = true; // first visit: show the controls once
+  openTutorial(true, "start"); // first visit: tutorial, then the controls
 }
 
 function openModel(entry: ModelIndexEntry, url: string): void {

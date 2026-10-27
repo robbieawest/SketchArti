@@ -1,0 +1,274 @@
+{
+ "name": "Chest of drawers",
+ "license": "LICENSE.txt",
+ "attribution": "Artiverse chest_of_drawers/abo/B009S7IZWG (release v1). Geometry: Amazon Berkeley Objects (ABO), CC BY 4.0. Articulation annotations (joints, part semantics) from Artiverse (https://huggingface.co/datasets/3dlg-hcvc/artiverse), CC BY-NC 4.0.",
+ "parts": [
+  {
+   "id": "base",
+   "name": "Base",
+   "mesh": "parts/base.glb"
+  },
+  {
+   "id": "door",
+   "name": "Door",
+   "mesh": "parts/door.glb"
+  },
+  {
+   "id": "drawer-1",
+   "name": "Drawer 1",
+   "mesh": "parts/drawer-1.glb"
+  },
+  {
+   "id": "drawer-2",
+   "name": "Drawer 2",
+   "mesh": "parts/drawer-2.glb"
+  },
+  {
+   "id": "drawer-3",
+   "name": "Drawer 3",
+   "mesh": "parts/drawer-3.glb"
+  },
+  {
+   "id": "drawer-4",
+   "name": "Drawer 4",
+   "mesh": "parts/drawer-4.glb"
+  },
+  {
+   "id": "handle-1",
+   "name": "Handle 1",
+   "mesh": "parts/handle-1.glb"
+  },
+  {
+   "id": "handle-2",
+   "name": "Handle 2",
+   "mesh": "parts/handle-2.glb"
+  },
+  {
+   "id": "handle-3",
+   "name": "Handle 3",
+   "mesh": "parts/handle-3.glb"
+  },
+  {
+   "id": "handle-4",
+   "name": "Handle 4",
+   "mesh": "parts/handle-4.glb"
+  },
+  {
+   "id": "handle-5",
+   "name": "Handle 5",
+   "mesh": "parts/handle-5.glb"
+  }
+ ],
+ "joints": [
+  {
+   "id": "j-door",
+   "name": "Door",
+   "parent": "base",
+   "child": "door",
+   "origin": [
+    -0.407123,
+    -0.111329,
+    0.199087
+   ],
+   "axis": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    1.53589
+   ]
+  },
+  {
+   "id": "j-drawer-1",
+   "name": "Drawer 1",
+   "parent": "base",
+   "child": "drawer-1",
+   "origin": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "type": "prismatic",
+   "limit": [
+    0.0,
+    0.27265
+   ]
+  },
+  {
+   "id": "j-drawer-2",
+   "name": "Drawer 2",
+   "parent": "base",
+   "child": "drawer-2",
+   "origin": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "type": "prismatic",
+   "limit": [
+    0.0,
+    0.291242
+   ]
+  },
+  {
+   "id": "j-drawer-3",
+   "name": "Drawer 3",
+   "parent": "base",
+   "child": "drawer-3",
+   "origin": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "type": "prismatic",
+   "limit": [
+    0.0,
+    0.274803
+   ]
+  },
+  {
+   "id": "j-drawer-4",
+   "name": "Drawer 4",
+   "parent": "base",
+   "child": "drawer-4",
+   "origin": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "axis": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "type": "prismatic",
+   "limit": [
+    0.0,
+    0.281828
+   ]
+  },
+  {
+   "id": "j-handle-1",
+   "name": "Handle 1",
+   "parent": "door",
+   "child": "handle-1",
+   "origin": [
+    -0.058854,
+    -0.123928,
+    0.202565
+   ],
+   "axis": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    3.141593
+   ]
+  },
+  {
+   "id": "j-handle-2",
+   "name": "Handle 2",
+   "parent": "drawer-1",
+   "child": "handle-2",
+   "origin": [
+    -0.201732,
+    0.250897,
+    0.190297
+   ],
+   "axis": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    3.141593
+   ]
+  },
+  {
+   "id": "j-handle-3",
+   "name": "Handle 3",
+   "parent": "drawer-2",
+   "child": "handle-3",
+   "origin": [
+    0.205032,
+    0.25091,
+    0.190297
+   ],
+   "axis": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    3.141593
+   ]
+  },
+  {
+   "id": "j-handle-4",
+   "name": "Handle 4",
+   "parent": "drawer-3",
+   "child": "handle-4",
+   "origin": [
+    0.205235,
+    0.013705,
+    0.190297
+   ],
+   "axis": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    3.141593
+   ]
+  },
+  {
+   "id": "j-handle-5",
+   "name": "Handle 5",
+   "parent": "drawer-4",
+   "child": "handle-5",
+   "origin": [
+    0.20487,
+    -0.223816,
+    0.190297
+   ],
+   "axis": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "type": "revolute",
+   "limit": [
+    0.0,
+    3.141593
+   ]
+  }
+ ]
+}

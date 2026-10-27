@@ -12,11 +12,9 @@ import {
 import {
   disposeObject,
   loadReferenceParts,
-  restyle,
 } from "./referenceMeshes";
 import type { Viewport } from "./Viewport";
 
-const NEUTRAL = new THREE.Color(0xc9c9c9);
 const GLYPH_COLORS = {
   revolute: 0xe53935,
   continuous: 0xe53935,
@@ -26,8 +24,14 @@ const GLYPH_COLORS = {
 interface PartEntry {
   /** Moved by the part's kinematic transform; children stay at rest. */
   group: THREE.Group;
-  color: THREE.Color;
-  materials: THREE.MeshStandardMaterial[];
+  /** Each mesh with the material it came with (textures and all). Not
+   *  shown for now — dataset textures vary too much in quality — but kept
+   *  so it can come back. */
+  meshes: { mesh: THREE.Mesh; original: THREE.Material | THREE.Material[] }[];
+  /** The part's palette colour, lit. */
+  partMaterial: THREE.MeshStandardMaterial;
+  /** Plain grey, while part colours are off. */
+  neutralMaterial: THREE.MeshStandardMaterial;
 }
 
 /**
@@ -58,17 +62,25 @@ export class ReferenceViewer {
     viewport.scene.add(this.root);
     viewport.scene.background = new THREE.Color(0xf0f0f0);
     this.root.add(this.glyphRoot);
-    // studio lighting on top of the viewport's hemisphere light: a warm key
-    // from above-front, a cool fill from the side, a rim from behind
-    const key = new THREE.DirectionalLight(0xfff4e6, 1.6);
-    key.position.set(3, 5, 4);
-    const fill = new THREE.DirectionalLight(0xe6f0ff, 0.6);
-    fill.position.set(-4, 2, 1);
-    const rim = new THREE.DirectionalLight(0xffffff, 0.5);
-    rim.position.set(0, 3, -5);
-    const ambient = new THREE.AmbientLight(0xffffff, 0.35);
-    this.lights.push(key, fill, rim, ambient);
-    for (const light of this.lights) viewport.scene.add(light);
+    // Lighting: a strong key light that rides with the camera, from above
+    // and to the left of the view, so every surface the viewer looks at is
+    // shaded and form reads from any angle; a cool fill from the opposite
+    // side and a little ambient so shadowed faces stay readable. The
+    // viewport's flat hemisphere light is turned down: it washes shading out.
+    viewport.scene.traverse((object) => {
+      if (object instanceof THREE.HemisphereLight) object.intensity = 0.25;
+    });
+    viewport.scene.add(viewport.camera); // so lights can ride along with it
+    const key = new THREE.DirectionalLight(0xfff6ec, 2.4);
+    key.position.set(-1, 1.6, 1);
+    key.target.position.set(0, 0, -1);
+    const fill = new THREE.DirectionalLight(0xe8f0ff, 0.5);
+    fill.position.set(1.5, -0.4, 0.6);
+    fill.target.position.set(0, 0, -1);
+    for (const light of [key, fill]) viewport.camera.add(light, light.target);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+    viewport.scene.add(ambient);
+    this.lights.push(key, fill, ambient);
   }
 
   get jointCount(): number {
@@ -81,18 +93,25 @@ export class ReferenceViewer {
     for (const part of await loadReferenceParts(model, baseUrl)) {
       const group = new THREE.Group();
       group.name = part.name;
-      const materials = restyle(
-        part.object,
-        () =>
-          new THREE.MeshStandardMaterial({
-            roughness: 0.65,
-            metalness: 0.05,
-            side: THREE.DoubleSide,
-          }),
-      ) as THREE.MeshStandardMaterial[];
+      const meshes: PartEntry["meshes"] = [];
+      part.object.traverse((child) => {
+        if (!(child instanceof THREE.Mesh)) return;
+        // scanned and CAD parts are often open shells: show both faces
+        for (const m of [child.material].flat()) m.side = THREE.DoubleSide;
+        meshes.push({ mesh: child, original: child.material });
+      });
+      const lit = (color: THREE.ColorRepresentation) =>
+        new THREE.MeshStandardMaterial({
+          color,
+          roughness: 0.55,
+          metalness: 0.0,
+          side: THREE.DoubleSide,
+        });
+      const partMaterial = lit(part.color);
+      const neutralMaterial = lit(0xcfcfcf);
       group.add(part.object);
       this.root.add(group);
-      this.parts.set(part.id, { group, color: part.color, materials });
+      this.parts.set(part.id, { group, meshes, partMaterial, neutralMaterial });
     }
     this.buildGlyphs(model);
     this.setPartColors(this.colored);
@@ -100,11 +119,12 @@ export class ReferenceViewer {
     this.groundAndFrame();
   }
 
+  /** Part colours on: one palette colour per part; off: plain grey. */
   setPartColors(on: boolean): void {
     this.colored = on;
     for (const entry of this.parts.values()) {
-      for (const material of entry.materials) {
-        material.color.copy(on ? entry.color : NEUTRAL);
+      for (const { mesh } of entry.meshes) {
+        mesh.material = on ? entry.partMaterial : entry.neutralMaterial;
       }
     }
     this.viewport.invalidate();
@@ -152,9 +172,9 @@ export class ReferenceViewer {
       if (!this.playing || !this.model) return;
       const seconds = (performance.now() - this.playStart) / 1000;
       const pose: ReferencePose = {};
-      movableJoints(this.model).forEach((joint, index) => {
-        pose[joint.id] = animatedValue(joint, index, seconds);
-      });
+      for (const joint of movableJoints(this.model)) {
+        pose[joint.id] = animatedValue(joint, seconds);
+      }
       this.setPose(pose);
       this.onAnimatedPose?.(pose);
       this.rafHandle = requestAnimationFrame(step);
@@ -186,7 +206,11 @@ export class ReferenceViewer {
     this.setPlaying(false);
     for (const entry of this.parts.values()) {
       entry.group.removeFromParent();
+      // put the originals back so both sets get disposed
+      for (const { mesh, original } of entry.meshes) mesh.material = original;
       disposeObject(entry.group);
+      entry.partMaterial.dispose();
+      entry.neutralMaterial.dispose();
     }
     for (const glyph of this.glyphs.values()) {
       glyph.removeFromParent();
@@ -203,7 +227,10 @@ export class ReferenceViewer {
   dispose(): void {
     this.clear();
     this.root.removeFromParent();
-    for (const light of this.lights) light.removeFromParent();
+    for (const light of this.lights) {
+      light.removeFromParent();
+      if (light instanceof THREE.DirectionalLight) light.target.removeFromParent();
+    }
   }
 
   /** Sit the model on the grid and frame it. */

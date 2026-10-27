@@ -11,6 +11,9 @@
       >
         Download data
       </button>
+      <button title="The step-by-step tutorial: sketch, segment, rig, pose" @click="$emit('tutorial')">
+        Tutorial
+      </button>
       <button title="Controls and how the tools work" @click="$emit('help')">
         Help
       </button>
@@ -108,13 +111,14 @@ export interface WorkspaceModel {
 const props = defineProps<{
   participant: ParticipantRecord;
   model: WorkspaceModel;
-  /** A popup covering the workspace: the picker pauses the session
-   *  (logged as away), help is just logged. */
-  overlay: "picker" | "help" | null;
+  /** A popup covering the workspace: the picker and the tutorial pause the
+   *  session (logged as away), help is just logged. */
+  overlay: "picker" | "tutorial" | "help" | null;
 }>();
 
 const emit = defineEmits<{
   help: [];
+  tutorial: [];
   models: [];
   /** Testing: download all data (after this session is saved). */
   download: [];
@@ -314,14 +318,21 @@ watch(
   (overlay, previous) => {
     const t = tracker.value;
     if (!t) return;
-    if (overlay === "picker") t.setAway(true, "menu");
-    else if (previous === "picker") t.setAway(false, "menu-closed");
+    if (overlay === "tutorial") t.log("tutorial", { open: true });
+    else if (previous === "tutorial") t.log("tutorial", { open: false });
+    if (isPausing(overlay)) t.setAway(true, overlay === "picker" ? "menu" : "tutorial");
+    else if (isPausing(previous)) t.setAway(false, `${previous === "picker" ? "menu" : "tutorial"}-closed`);
     if (overlay === "help") t.log("help", { open: true });
     else if (previous === "help") t.log("help", { open: false });
     dirty = true;
-    if (overlay === "picker") void save(true);
+    if (isPausing(overlay)) void save(true);
   },
 );
+
+/** Overlays that take the participant away from the sketch. */
+function isPausing(overlay: typeof props.overlay | undefined): boolean {
+  return overlay === "picker" || overlay === "tutorial";
+}
 
 function onTool(tool: ToolName): void {
   tracker.value?.setTool(tool);
@@ -385,8 +396,8 @@ function onKeyDownCapture(event: KeyboardEvent): void {
 
 function onInput(): void {
   lastInput = Date.now();
-  // input inside the model picker is not work on this sketch
-  if (props.overlay === "picker") return;
+  // input inside the model picker or tutorial is not work on this sketch
+  if (isPausing(props.overlay)) return;
   if (tracker.value?.mode === "away" && !document.hidden) {
     tracker.value.setAway(false, "input");
     dirty = true;
@@ -394,7 +405,7 @@ function onInput(): void {
 }
 
 function checkIdle(): void {
-  if (props.overlay === "picker") return;
+  if (isPausing(props.overlay)) return;
   if (Date.now() - lastInput > IDLE_MS && tracker.value?.mode !== "away") {
     tracker.value?.setAway(true, "idle");
     dirty = true;
@@ -408,7 +419,7 @@ function onVisibility(): void {
     void save();
   } else {
     lastInput = Date.now();
-    if (props.overlay !== "picker") tracker.value?.setAway(false, "visible");
+    if (!isPausing(props.overlay)) tracker.value?.setAway(false, "visible");
     dirty = true;
   }
 }

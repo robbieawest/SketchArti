@@ -31,6 +31,8 @@ export interface ModelIndexEntry {
   /** Picker image, relative to models/index.json. */
   thumbnail?: string;
   description?: string;
+  /** A model to try the tools on first, listed apart from the study ones. */
+  practice?: boolean;
 }
 
 export type PartPrimitive =
@@ -42,7 +44,8 @@ export interface ReferencePart {
   name: string;
   /** .glb/.gltf/.obj, relative to model.json, world space at rest. */
   mesh?: string;
-  /** Placeholder geometry for models without meshes (development). */
+  /** Placeholder geometry for models without meshes (development). With
+   *  neither mesh nor primitive the part is an invisible connector. */
   primitive?: PartPrimitive;
   /** Offset applied to a primitive (meshes are already placed). */
   position?: Vec3Tuple;
@@ -157,16 +160,15 @@ export function partTransforms(
 }
 
 /** Joint value at time `seconds` of the play-all animation: limited joints
- *  ease back and forth across their range, continuous ones spin. Each
- *  joint gets a phase offset so they don't all move in lockstep. */
+ *  ease back and forth across their range, continuous ones spin, all in
+ *  step so the whole object moves at once. */
 export function animatedValue(
   joint: ReferenceJoint,
-  index: number,
   seconds: number,
   period = 4,
 ): number {
   if (joint.type === "fixed") return 0;
-  const phase = seconds / period + index * 0.17;
+  const phase = seconds / period;
   if (joint.type === "continuous") {
     const angle = (phase % 1) * 2 * Math.PI;
     return angle > Math.PI ? angle - 2 * Math.PI : angle;
@@ -182,12 +184,10 @@ export function validateModel(data: unknown): ReferenceModel {
   if (!model || !Array.isArray(model.parts) || !Array.isArray(model.joints)) {
     throw new Error("model.json needs `parts` and `joints` arrays");
   }
+  // parts need no geometry: one with neither mesh nor primitive is a bare
+  // connector (a URDF link with no visual, e.g. the slide stage between a
+  // chair base and its swivel) that moves its children but draws nothing
   const ids = new Set(model.parts.map((p) => p.id));
-  for (const part of model.parts) {
-    if (!part.mesh && !part.primitive) {
-      throw new Error(`part ${part.id} has neither a mesh nor a primitive`);
-    }
-  }
   for (const joint of model.joints) {
     if (!ids.has(joint.parent) || !ids.has(joint.child)) {
       throw new Error(`joint ${joint.id} references a missing part`);
